@@ -1,13 +1,15 @@
 import { Fragment } from 'react/jsx-runtime';
+import MovieList from './components/movie/MovieList';
 
 function App() {
   return (
     <Fragment>
-      <header className="header mb-10 flex items-center justify-center gap-x-5 py-10 text-white">
+      <header className="header mb-5 flex items-center justify-center gap-x-5 py-10 text-white">
         <span className="text-primary">Home</span>
         <span>Movie</span>
       </header>
-      <section className="banner page-container h-[400px]">
+
+      <section className="banner page-container mb-20 h-[400px]">
         <div className="relative h-full w-full rounded-lg">
           <div className="overlay absolute inset-0 rounded-lg bg-gradient-to-t from-[rgba(0,0,0,0.5)] to-[rgba(0,0,0,0.5)]"></div>
           <img
@@ -27,6 +29,21 @@ function App() {
             </button>
           </div>
         </div>
+      </section>
+
+      <section className="movie-layout page-container pb-20">
+        <h2 className="mb-10 text-3xl font-bold capitalize text-white">Now playing</h2>
+        <MovieList></MovieList>
+      </section>
+
+      <section className="movie-layout page-container pb-20">
+        <h2 className="mb-10 text-3xl font-bold capitalize text-white">Top rated</h2>
+        <MovieList type="top_rated"></MovieList>
+      </section>
+
+      <section className="movie-layout page-container pb-20">
+        <h2 className="mb-10 text-3xl font-bold capitalize text-white">Trending</h2>
+        <MovieList type="popular"></MovieList>
       </section>
     </Fragment>
   );
