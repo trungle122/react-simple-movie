@@ -1,36 +1,35 @@
 import { Fragment } from 'react/jsx-runtime';
 import useSWR from 'swr';
 import MovieCard from '../components/movie/MovieCard';
-import { fetcher } from '../config';
-import { Movie } from '../types/movie.type';
+import { fetcher, tmdbAPI } from '../config';
+import { Movie, PaginatedResponse } from '../types/movie.type';
 import React, { useEffect, useState } from 'react';
 import { useDebounce } from '../hooks/useDebounce';
 
 //https://api.themoviedb.org/3/search/movie
 
+const pageCount = 5;
+
 const MoviePage = () => {
+  const [nextPage, setNextPage] = useState(1);
   const [fitler, setFitler] = useState('');
-  const [url, setUrl] = useState(
-    'https://api.themoviedb.org/3/movie/popular?api_key=6075752fbd41b2a4aa7b99b68e324078',
-  );
+  const [url, setUrl] = useState(tmdbAPI.getMovieList('popular', nextPage));
   const fitlerDebounce = useDebounce(fitler, 1000);
   const handleFitlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFitler(event.target.value);
   };
 
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error } = useSWR<PaginatedResponse>(url, fetcher);
   const loading = !data && !error;
 
   useEffect(() => {
-    if (fitlerDebounce)
-      setUrl(
-        `https://api.themoviedb.org/3/search/movie?api_key=6075752fbd41b2a4aa7b99b68e324078&query=${fitlerDebounce}`,
-      );
-    else
-      setUrl(`https://api.themoviedb.org/3/movie/popular?api_key=6075752fbd41b2a4aa7b99b68e324078`);
-  }, [fitlerDebounce]);
+    if (fitlerDebounce) setUrl(tmdbAPI.getMovieSearch(fitlerDebounce, nextPage));
+    else setUrl(tmdbAPI.getMovieList('popular', nextPage));
+  }, [fitlerDebounce, nextPage]);
 
   const movieList: Movie[] = data?.results || [];
+  // const { page, total_pages } = data;
+  console.log(data);
 
   return (
     <div className="page-container py-10">
@@ -75,7 +74,7 @@ const MoviePage = () => {
       </div>
 
       <div className="flex items-center justify-center gap-x-5">
-        <span className="cursor-pointer">
+        <span className="cursor-pointer" onClick={() => setNextPage(nextPage - 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -87,10 +86,16 @@ const MoviePage = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
           </svg>
         </span>
-        <span className="inline-block cursor-pointer rounded bg-white px-4 py-2 leading-none text-slate-900">
-          1
-        </span>
-        <span className="cursor-pointer">
+        {new Array(pageCount).fill(0).map((item, index) => (
+          <span
+            className="inline-block cursor-pointer rounded bg-white px-4 py-2 leading-none text-slate-900"
+            key={index + item}
+            onClick={() => setNextPage(index + 1)}
+          >
+            {index + 1}
+          </span>
+        ))}
+        <span className="cursor-pointer" onClick={() => setNextPage(nextPage + 1)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

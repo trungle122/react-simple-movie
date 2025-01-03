@@ -148,3 +148,21 @@ export interface SimilarMovieList {
   total_pages: number;
   total_results: number;
 }
+
+export interface PaginatedResponse {
+  page: number;
+  results: Movie[];
+  total_pages: number;
+  total_results: number;
+}
+
+type ButtonType = 'button' | 'submit' | 'reset';
+type BgColor = 'primary' | 'secondary';
+
+export interface ButtonProps {
+  onClick?: () => void;
+  className?: string;
+  type?: ButtonType;
+  bgColor?: BgColor;
+  children: React.ReactNode;
+}
