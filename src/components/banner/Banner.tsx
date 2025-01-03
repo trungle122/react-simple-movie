@@ -1,7 +1,6 @@
+import { Swiper, SwiperSlide } from 'swiper/react';
 import useSWR from 'swr';
 import { fetcher } from '../../config';
-
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { Movie } from '../../types/movie.type';
 
 const Banner = () => {
