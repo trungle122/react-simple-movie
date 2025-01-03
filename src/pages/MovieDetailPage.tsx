@@ -21,15 +21,16 @@ const MovieDetailPage = () => {
     <div className="pb-10">
       <div className="relative h-[600px] w-full">
         <div className="absolute inset-0 bg-black bg-opacity-70"></div>
-        <div
-          className="h-full w-full bg-cover bg-no-repeat"
-          style={{
-            backgroundImage: `url(https://image.tmdb.org/t/p/original/${backdrop_path})`,
-          }}
-        ></div>
+        <div className="h-full w-full overflow-hidden">
+          <img
+            src={`https://image.tmdb.org/t/p/original/${backdrop_path}`}
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
 
-      <div className="relative z-10 mx-auto -mt-[200px] h-[400px] w-full max-w-[800px] pb-10">
+      <div className="relative z-10 mx-auto -mt-[200px] mb-10 h-[400px] w-full max-w-[800px]">
         <img
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt=""
@@ -105,7 +106,7 @@ function MovieVideoList() {
     <div className="px-5 py-10">
       <div className="flex flex-col gap-10">
         {results.length > 0 &&
-          results.slice(0, 2).map((video) => (
+          results.slice(0, 1).map((video) => (
             <div className="" key={video.id}>
               <h3 className="bg-secondary mb-5 inline-block p-3 text-xl font-medium">
                 {video.name}
