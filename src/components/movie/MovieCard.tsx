@@ -1,7 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import { MovieCardProps } from '../../types/movie.type';
 
 const MovieCard = ({ movie }: MovieCardProps) => {
-  const { title, release_date, vote_average, poster_path } = movie;
+  const { title, release_date, vote_average, poster_path, id } = movie;
+  const naigate = useNavigate();
 
   return (
     <div className="movie-card select-none rounded-lg bg-slate-800 p-3 text-white">
@@ -17,7 +19,14 @@ const MovieCard = ({ movie }: MovieCardProps) => {
         <span>{new Date(release_date).getFullYear()}</span>
         <span>{vote_average.toFixed(1)}</span>
       </div>
-      <button className="bg-primary w-full rounded-lg px-6 py-3 capitalize">Watch now</button>
+      <button
+        className="w-full rounded-lg bg-primary px-6 py-3 capitalize"
+        onClick={() => {
+          naigate(`/movies/${id}`);
+        }}
+      >
+        Watch now
+      </button>
     </div>
   );
 };

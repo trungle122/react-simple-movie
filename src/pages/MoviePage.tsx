@@ -1,8 +1,8 @@
-import useSWR from 'swr';
-import { Movie } from '../types/movie.type';
-import { fetcher } from '../config';
-import MovieCard from '../components/movie/MovieCard';
 import { Fragment } from 'react/jsx-runtime';
+import useSWR from 'swr';
+import MovieCard from '../components/movie/MovieCard';
+import { fetcher } from '../config';
+import { Movie } from '../types/movie.type';
 
 const MoviePage = () => {
   const { data } = useSWR(
